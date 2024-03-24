@@ -43,12 +43,12 @@ io.on("connection", socket => {
 });
 
 function generateUsedID() {
-    return Math.floor(Math.random() * 10000);
+    return Math.floor(Math.random() * 1000000);
 }
 
 app.use(express.static("public"));
 
-const port = 3000;
+const port = process.env.PORT ?? 3000;
 
 server.listen(port, () => {
     console.log(`Server is listening at http://localhost:${port}`);
