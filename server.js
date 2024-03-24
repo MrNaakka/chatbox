@@ -14,6 +14,7 @@ const app = express();
 const server = http.createServer(app)
 const io = socketIo(server);
 
+let messages = [];
 
 /*
 We set up a listener for the 'connection' event on the io object.
@@ -30,12 +31,15 @@ io.on("connection", socket => {
 
     let userId = generateUsedID()
 
-    socket.emit("userId", userId);
+
 
     socket.on("message", data => {
 
+        messages.push({ userId: userId, message: data.message });
+
         console.log("message received from user " + userId + ":" + data.message);
         io.emit("message", { userId: userId, message: data.message });
+        console.log(messages);
     });
     socket.on("disconnect", () => {
         console.log("user" + userId + " disconnected");

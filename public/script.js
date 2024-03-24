@@ -1,11 +1,12 @@
 let socket = io(); // connection between the client an the server. creates a socket.io client instance that can send and reciave mesage to and from the server.
 
+let messages = []
 let userId;
 let interactiveBox = document.getElementById("interactiveBox");
 let inputField;
 
 
-
+let messageBox = document.getElementById("messageBox")
 interactiveBox.addEventListener('click', handleClick);
 
 function getText() { // sama voidaan saada aikaa(mutta en osannut tätä): return inputField ? inputField.value : '';
@@ -52,13 +53,26 @@ This step is optional and depends on whether you expect the server to send messa
 
 
 
-socket.on("message", message => {
-    console.log("Message received from server: ", message.message);
-    let dynamicMessageFromServer = document.getElementById("messageFromServer")
-    dynamicMessageFromServer.innerHTML = "User " + userId + "says: " + message.message;
+socket.on("message", data => {
+    console.log("Message received from server: ", data.message);
+
+    messages.unshift(data);
+
+    renderMessages(data);
+
 });
 
-socket.on("userId", id => {
-    userId = id;
-});
+function renderMessages() {
+
+    messageBox.innerHTML = "";
+
+    messages.forEach(message => {
+        let messageElement = document.createElement("div");
+        messageElement.textContent = "User " + message.userId + " says: " + message.message
+        messageBox.appendChild(messageElement);
+    });
+
+
+}
+
 
