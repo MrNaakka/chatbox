@@ -5,8 +5,8 @@ let userId;
 let interactiveBox = document.getElementById("interactiveBox");
 let inputField;
 
-
-let messageBox = document.getElementById("messageBox")
+let countBox = document.getElementById("countBox");
+let messageBox = document.getElementById("messageBox");
 interactiveBox.addEventListener('click', handleClick);
 
 function getText() { // sama voidaan saada aikaa(mutta en osannut tätä): return inputField ? inputField.value : '';
@@ -62,6 +62,11 @@ socket.on("message", data => {
 
 });
 
+socket.on("count", siteCount => {
+    console.log(siteCount)
+    countBox.innerHTML = "Käyttäjämäärä: " + siteCount
+})
+
 function renderMessages() {
 
     messageBox.innerHTML = "";
@@ -71,8 +76,7 @@ function renderMessages() {
         messageElement.textContent = "User " + message.userId + " says: " + message.message
         messageBox.appendChild(messageElement);
     });
-
-
 }
+
 
 

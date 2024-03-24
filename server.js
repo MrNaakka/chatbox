@@ -15,6 +15,7 @@ const server = http.createServer(app)
 const io = socketIo(server);
 
 let messages = [];
+let siteCount = 0;
 
 /*
 We set up a listener for the 'connection' event on the io object.
@@ -28,6 +29,11 @@ When the client disconnects, we log a message indicating that a user has disconn
 
 io.on("connection", socket => {
     console.log("a user has connected");
+    siteCount += 1;
+    console.log(siteCount);
+    io.emit("count", siteCount)
+
+
 
     let userId = generateUsedID()
 
@@ -43,6 +49,9 @@ io.on("connection", socket => {
     });
     socket.on("disconnect", () => {
         console.log("user" + userId + " disconnected");
+        siteCount -= 1;
+        console.log(siteCount);
+        io.emit("count", siteCount)
     });
 });
 
