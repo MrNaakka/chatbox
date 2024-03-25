@@ -35,6 +35,12 @@ io.on("connection", socket => {
 
 
 
+    messages.forEach(message => {
+        socket.emit("message", message)
+    })
+
+
+
     let userId = generateUsedID()
 
 
@@ -45,7 +51,6 @@ io.on("connection", socket => {
 
         console.log("message received from user " + userId + ":" + data.message);
         io.emit("message", { userId: userId, message: data.message });
-        console.log(messages);
     });
     socket.on("disconnect", () => {
         console.log("user" + userId + " disconnected");

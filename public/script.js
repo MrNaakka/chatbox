@@ -67,16 +67,35 @@ socket.on("count", siteCount => {
     countBox.innerHTML = "Käyttäjämäärä: " + siteCount
 })
 
+
 function renderMessages() {
 
     messageBox.innerHTML = "";
 
-    messages.forEach(message => {
-        let messageElement = document.createElement("div");
-        messageElement.textContent = "User " + message.userId + " says: " + message.message
-        messageBox.appendChild(messageElement);
-    });
+    let numberOfMessages = Object.keys(messages).length;
+
+
+
+    console.log("viestien määrä: " + numberOfMessages);
+
+    if (numberOfMessages > 16) {
+        numberOfMessages = 16
+    }
+
+    for (let i = 0; i < numberOfMessages; i++) {
+
+
+        let message = messages[i]
+        if (message && message.userId && message.message) {
+
+            let messageElement = document.createElement("div");
+            messageElement.textContent = "User " + message.userId + " says: " + message.message
+            messageBox.appendChild(messageElement);
+        }
+
+    }
 }
+
 
 
 
